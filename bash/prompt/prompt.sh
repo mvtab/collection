@@ -5,13 +5,20 @@ __prompt_command() {
 	PS1=""
 
 	# colors.
-	local DARK_BLUE="\[$(tput setaf 24)\]"
-	local GREEN="\[$(tput setaf 47)\]"
-	local DARK_GREEN="\[$(tput setaf 64)\]"
-	local RED="\[$(tput setaf 196)\]"
-	local YELLOW="\[$(tput setaf 190)\]"
-	local ORANGE="\[$(tput setaf 208)\]"
-	local RESET="\[$(tput sgr0)\]"
+	local DARK_BLUE
+	local GREEN
+	local DARK_GREEN
+	local RED
+	local YELLOW
+	local ORANGE
+	local RESET
+	DARK_BLUE="\[$(tput setaf 24)\]"
+	GREEN="\[$(tput setaf 47)\]"
+	DARK_GREEN="\[$(tput setaf 64)\]"
+	RED="\[$(tput setaf 196)\]"
+	YELLOW="\[$(tput setaf 190)\]"
+	ORANGE="\[$(tput setaf 208)\]"
+	RESET="\[$(tput sgr0)\]"
 
 	# title.
 	PS1+="\[\e]2;\u@\h:\w\a\]"
@@ -32,7 +39,7 @@ __prompt_command() {
 
 	# python env.
 	if [[ -n "${VIRTUAL_ENV_PROMPT}" ]]; then
-		VIRTUAL_ENV_PROMPT=$(echo ${VIRTUAL_ENV_PROMPT} | tr -d '()')
+		VIRTUAL_ENV_PROMPT=$(echo "${VIRTUAL_ENV_PROMPT}" | tr -d '()[:space:][:blank:]')
 		PS1+="(${DARK_GREEN}${VIRTUAL_ENV_PROMPT}${RESET}"
 	fi
 
