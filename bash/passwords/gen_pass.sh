@@ -2,9 +2,14 @@
 
 generate_password() {
 	local COUNT
+	local REGEX_PATTERN
+
+	[[ ($@ == "--help") ||  ($@ == "-h") ]] \
+		&& echo "Usage: ${0} [COUNT] [REGEX_PATTERN]" && exit 0
 	[[ -n ${1} ]] && COUNT=${1} || COUNT=20
 	shift
 	[[ -n ${1} ]] && REGEX_PATTERN="${1}" || REGEX_PATTERN='[ -~]'
+
 	cat /dev/urandom | tr -dc "${REGEX_PATTERN}" | head -c "${COUNT}"
 }
 
