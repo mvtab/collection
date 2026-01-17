@@ -44,13 +44,13 @@ __prompt_command() {
 	fi
 
 	# git branch.
-	if [[ -n "$(git name-rev --name-only @ 2> /dev/null)" ]]; then
+	if [[ -n "$(git branch --show-current 2> /dev/null)" ]]; then
 		if [[ -n "${VIRTUAL_ENV_PROMPT}" ]]; then
 			PS1+="-"
 		else
 			PS1+="("
 		fi
-		PS1+="${DARK_BLUE}$(git name-rev --name-only @ 2> /dev/null)${RESET})"
+		PS1+="${DARK_BLUE}$(git branch --show-current 2> /dev/null)${RESET})"
 	elif [[ -n "${VIRTUAL_ENV_PROMPT}" ]]; then
 		PS1+=")"
 	fi
