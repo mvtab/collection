@@ -5,7 +5,7 @@ generate_password() {
 	local REGEX_PATTERN
 
 	[[ ($@ == "--help") ||  ($@ == "-h") ]] \
-		&& echo "Usage: ${0} [COUNT] [REGEX_PATTERN]" && exit 0
+		&& echo "Usage: ${0} [COUNT] [REGEX_PATTERN]" && return 0
 	[[ -n ${1} ]] && COUNT=${1} || COUNT=20
 	shift
 	[[ -n ${1} ]] && REGEX_PATTERN="${1}" || REGEX_PATTERN='[ -~]'
@@ -18,4 +18,6 @@ generate_weak_password() {
 	[[ ${#} -eq 0 ]] && COUNT=20 || COUNT=${1}
 	generate_password "${COUNT}" "a-zA-Z0-9"
 }
+
+generate_password -h
 
