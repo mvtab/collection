@@ -19,5 +19,3 @@ generate_weak_password() {
 	generate_password "${COUNT}" "a-zA-Z0-9"
 }
 
-generate_password -h
-
