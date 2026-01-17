@@ -4,7 +4,7 @@ generate_password() {
 	local COUNT
 	local REGEX_PATTERN
 
-	[[ ($@ == "--help") ||  ($@ == "-h") ]] \
+	[[ ("${*}" == "--help") ||  ("${*}" == "-h") ]] \
 		&& echo "Usage: ${0} [COUNT] [REGEX_PATTERN]" && return 0
 	[[ -n ${1} ]] && COUNT=${1} || COUNT=20
 	shift
