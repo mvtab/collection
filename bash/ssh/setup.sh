@@ -21,7 +21,10 @@ ssh_startup() {
 		ssh_shutdown
 	fi
 	eval "$(ssh-agent -s)" 1> /dev/null
+
+    # Remove the next line if not used in .bashrc.
 	trap ssh_shutdown EXIT HUP PIPE TERM
+    
 	read -p "Add SSH keys?[y/N]: " -t 10 SHOULD_LOAD_KEYS || echo
 	case "${SHOULD_LOAD_KEYS}" in
 		y|Y|[yY][eE][sS] )
