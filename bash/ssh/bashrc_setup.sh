@@ -1,11 +1,17 @@
 #!/bin/bash
 
-# Example used in .bashrc. 
-# Might work differently or not at all if used independently.
+# .bashrc ssh sessions 
+
+check_ssh_agent() {
+	if ps aux | grep -v grep | grep ssh-agent 1> /dev/null; then
+		return 0
+	else
+		return 1
+	fi
+}
 
 ssh_shutdown() {
-    # pidof is usually in the procps package.
-	for TEMP_AGENT_PID in $(pidof ssh-agent); do
+	for TEMP_AGENT_PID in $(ps aux | grep -v grep | grep ssh-agent | awk '{print $2}'); do
 		eval "$(SSH_AGENT_PID=${TEMP_AGENT_PID} ssh-agent -k)"
 	done
 }
@@ -17,18 +23,19 @@ ssh_load_keys() {
 }
 
 ssh_startup() {
-	if ps aux | grep -v grep | grep ssh-agent 1> /dev/null; then
-		ssh_shutdown
-	fi
 	eval "$(ssh-agent -s)" 1> /dev/null
+}
 
-    # Remove the next line if not used in .bashrc.
-	trap ssh_shutdown EXIT HUP PIPE TERM
-    
-	read -p "Add SSH keys?[y/N]: " -t 10 SHOULD_LOAD_KEYS || echo
-	case "${SHOULD_LOAD_KEYS}" in
+ssh_startup_check() {
+	read -p "Start SSH session?[y/N]: " -t 10 SHOULD_START_SSH_SESSION || echo
+	case "${SHOULD_START_SSH_SESSION}" in
 		y|Y|[yY][eE][sS] )
+			if check_ssh_agent; then
+				ssh_shutdown
+			fi
+			ssh_startup
 			ssh_load_keys
+			trap ssh_shutdown EXIT HUP PIPE TERM
 			;;
 		* )
 			;;
@@ -36,4 +43,4 @@ ssh_startup() {
 }
 
 export SSH_KEYS_TO_LOAD=("ssh-key-1" "ssh-key-2")
-ssh_startup
+ssh_startup_check
