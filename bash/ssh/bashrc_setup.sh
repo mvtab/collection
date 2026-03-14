@@ -33,13 +33,16 @@ ssh_startup_check() {
 			if check_ssh_agent; then
 				ssh_shutdown
 			fi
-			ssh_startup
-			ssh_load_keys
-			trap ssh_shutdown EXIT HUP PIPE TERM
+			;;
+		+ )
 			;;
 		* )
+			return 0
 			;;
 	esac
+	ssh_startup
+	ssh_load_keys
+	trap ssh_shutdown EXIT HUP PIPE TERM
 }
 
 export SSH_KEYS_TO_LOAD=("ssh-key-1" "ssh-key-2")
