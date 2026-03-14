@@ -27,7 +27,7 @@ ssh_startup() {
 }
 
 ssh_startup_check() {
-	read -p "Start SSH session?[y/N]: " -t 10 SHOULD_START_SSH_SESSION || echo
+	read -p "Start SSH session?[y/+/N]: " -t 10 SHOULD_START_SSH_SESSION || echo
 	case "${SHOULD_START_SSH_SESSION}" in
 		[yY]|[yY][eE][sS] )
 			if check_ssh_agent; then
